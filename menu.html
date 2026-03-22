@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Βάλτου Ρίγανη</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#2c5f3a; --gold:#c9a84c; --cream:#faf7f0; --warm-white:#fffdf8;
+  --text-dark:#1a2016; --text-mid:#4a5540; --text-soft:#7a8a72;
+  --border:#e2ddd0;
+  --shadow:0 4px 24px rgba(44,95,58,0.08);
+  --shadow-hover:0 12px 40px rgba(44,95,58,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);line-height:1.6;max-width:500px;margin:0 auto;}
+.hero{background:linear-gradient(160deg,#111a12 0%,#1e3d24 50%,#111a12 100%);text-align:center;padding:40px 20px 32px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 30% 60%,rgba(201,168,76,.10) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 80% 30%,rgba(201,168,76,.07) 0%,transparent 60%);pointer-events:none;}
+.hero-logo{position:relative;z-index:1;}
+.hero-logo img{max-width:240px;width:68%;height:auto;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5));}
+.hero-tagline{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-top:12px;position:relative;z-index:1;}
+.lang-bar{display:flex;align-items:center;gap:6px;padding:9px 16px;justify-content:space-between;background:var(--warm-white);border-bottom:1px solid var(--border);}
+.lang-bar span{font-size:11px;color:var(--text-soft);margin-right:2px;}
+.lang-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-soft);transition:all .2s;}
+.lang-btn.active,.lang-btn:hover{background:var(--primary);color:white;border-color:var(--primary);}
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--warm-white);border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.07);padding:10px 14px;}
+.nav-select{width:100%;padding:11px 40px 11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:2px solid var(--border);border-radius:10px;background:white;color:var(--text-dark);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232c5f3a' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color .2s;}
+.nav-select:focus{outline:none;border-color:var(--gold);}
+.container{padding:0 14px 80px;}
+.menu-section{display:none;padding-top:24px;animation:fadeUp .32s ease forwards;}
+.menu-section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+.section-header{margin-bottom:18px;display:flex;align-items:flex-end;gap:12px;}
+.section-title-en{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--primary);line-height:1.1;}
+.section-title-gr{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;font-style:normal;color:var(--primary);line-height:1.1;}
+.section-line{flex:1;height:2px;background:linear-gradient(to right,var(--gold),transparent);margin-bottom:5px;}
+.cards-grid{display:flex;flex-direction:column;gap:14px;}
+.card{background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .25s ease,box-shadow .25s ease;}
+.card:active{transform:scale(0.985);}
+.card-inner{display:flex;flex-direction:row;height:135px;}
+.card-img{width:165px;flex-shrink:0;overflow:hidden;position:relative;}
+.card-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.no-img{width:165px;flex-shrink:0;background:linear-gradient(135deg,#c9a84c15,#2c5f3a15);display:flex;align-items:center;justify-content:center;font-size:34px;}
+.badge{position:absolute;top:6px;left:6px;background:var(--primary);color:white;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:20px;z-index:1;}
+.badge-gold{background:var(--gold);color:#1a2016;}
+.card-body{padding:11px 13px;flex:1;display:flex;flex-direction:column;justify-content:space-between;min-width:0;}
+.name-en{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--text-dark);line-height:1.25;}
+.name-gr{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;font-style:normal;color:var(--text-dark);line-height:1.25;}
+.desc-en{font-size:11.5px;color:var(--text-mid);line-height:1.4;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.desc-gr{font-size:11.5px;font-style:normal;color:var(--text-mid);line-height:1.4;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;}
+.price{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--primary);}
+.price-note{font-size:10px;color:var(--text-soft);text-align:right;line-height:1.4;}
+.card-featured .card-inner{flex-direction:column;height:auto;}
+.card-featured .card-img{width:100%;height:220px;}
+.card-featured .no-img{width:100%;height:220px;}
+.card-featured .card-body{padding:14px;}
+.extras-table{background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);}
+.extras-row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);gap:12px;}
+.extras-row:last-child{border-bottom:none;}
+.extras-featured{background:linear-gradient(135deg,#2c5f3a06,#c9a84c08);border-left:3px solid var(--gold);}
+.extras-wine{background:linear-gradient(135deg,#c9a84c12,#c9a84c06);border:2px solid var(--gold) !important;border-radius:8px;margin:4px 8px;}
+.extras-name{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}
+.extras-name-en{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--text-dark);}
+.extras-name-gr{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;font-style:normal;color:var(--text-dark);}
+.extras-price{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--primary);white-space:nowrap;flex-shrink:0;}
+footer{background:#111a12;color:rgba(255,255,255,.65);text-align:center;padding:28px 20px;font-size:12px;}
+footer img{max-width:110px;opacity:.8;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;}
+footer span{display:block;font-size:10px;opacity:.5;margin-top:6px;}
+
+/* Language visibility — controlled by JS on <html> element */
+html.lang-en .name-gr,html.lang-en .desc-gr,html.lang-en .section-title-gr,html.lang-en .extras-name-gr{display:none;}
+html.lang-en .name-en,html.lang-en .desc-en,html.lang-en .section-title-en,html.lang-en .extras-name-en{display:block;}
+html.lang-gr .name-en,html.lang-gr .desc-en,html.lang-gr .section-title-en,html.lang-gr .extras-name-en{display:none;}
+html.lang-gr .name-gr,html.lang-gr .desc-gr,html.lang-gr .section-title-gr,html.lang-gr .extras-name-gr{display:block;}
+html.lang-both .name-en,html.lang-both .desc-en,html.lang-both .section-title-en,html.lang-both .extras-name-en,
+html.lang-both .name-gr,html.lang-both .desc-gr,html.lang-both .section-title-gr,html.lang-both .extras-name-gr{display:block;}
+/* Default: EN */
+.name-gr,.desc-gr,.section-title-gr,.extras-name-gr{display:none;}
+
+/* ── Drinks Dropdowns ── */
+.dlist { display:flex; flex-direction:column; gap:12px; }
+.ditem { border-radius:14px; overflow:hidden; box-shadow:0 2px 12px rgba(44,95,58,0.10); }
+.dbtn {
+  width:100%; display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px;
+  background:white;
+  border:2px solid var(--primary);
+  border-radius:14px;
+  cursor:pointer;
+  transition:all .22s;
+}
+.dbtn-left { display:flex; align-items:center; gap:12px; }
+.dbtn-emoji { font-size:22px; line-height:1; }
+.dbtn-label {
+  font-family:'Playfair Display',serif;
+  font-size:16px; font-weight:600;
+  color:var(--primary);
+}
+.dchev { color:var(--primary); flex-shrink:0; transition:transform .25s ease; }
+.dbtn.open { background:var(--primary); border-color:var(--primary); border-radius:14px 14px 0 0; }
+.dbtn.open .dbtn-label { color:white; }
+.dbtn.open .dchev { color:white; transform:rotate(180deg); }
+.dpanel {
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease;
+  border:2px solid var(--primary);
+  border-top:none;
+  border-radius:0 0 14px 14px;
+  background:var(--warm-white);
+}
+.dpanel.open { max-height:2000px; }
+.dpanel .extras-table { border-radius:0; box-shadow:none; border:none; background:transparent; }
+.dpanel .extras-row { padding:13px 18px; border-bottom:1px solid var(--border); }
+.dpanel .extras-row:last-child { border-bottom:none; }
+.d-note { font-size:11px; color:var(--text-soft); display:block; margin-top:2px; }
+.drinks-note { text-align:center; font-size:11px; color:var(--text-soft); margin:12px 8px 4px; font-style:italic; }
+.drinks-allergen { font-size:10px; color:var(--text-soft); margin:8px; line-height:1.5; padding:10px; background:white; border-radius:8px; border:1px solid var(--border); }
+
+.dpanel .extras-featured {
+  background: linear-gradient(135deg,#c9a84c12,#c9a84c06) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+  padding: 10px 18px !important;
+}
+.dpanel .extras-featured .extras-name-en {
+  color: var(--text-dark) !important;
+  font-family: 'Playfair Display', serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: .06em !important;
+  text-transform: uppercase !important;
+}
+.dpanel .extras-featured .extras-price {
+  color: var(--primary) !important;
+}
+
+/* ── Custom Nav Dropdown ── */
+.custom-nav { position:relative; width:100%; }
+.custom-nav-btn {
+  width:100%; display:flex; align-items:center; justify-content:space-between;
+  padding:13px 18px;
+  background:white;
+  border:2px solid var(--gold);
+  border-radius:12px;
+  cursor:pointer;
+  font-family:'Playfair Display',serif;
+  font-size:16px; font-weight:600;
+  color:var(--text-dark);
+  transition:all .2s;
+}
+.custom-nav-btn:hover { border-color:var(--primary); }
+.custom-nav-btn.open { border-radius:12px 12px 0 0; border-color:var(--primary); border-bottom-color:transparent; }
+.nav-chev { color:var(--gold); flex-shrink:0; transition:transform .25s ease; }
+.custom-nav-btn.open .nav-chev { transform:rotate(180deg); color:var(--primary); }
+.custom-nav-dropdown {
+  display:none;
+  position:absolute; top:100%; left:0; right:0; z-index:200;
+  background:white;
+  border:2px solid var(--primary);
+  border-top:none;
+  border-radius:0 0 12px 12px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(44,95,58,0.15);
+}
+.custom-nav-dropdown.open { display:block; animation:fadeUp .2s ease forwards; }
+.nav-option {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:13px 18px;
+  font-family:'Playfair Display',serif;
+  font-size:15px; font-weight:600;
+  color:var(--text-dark);
+  cursor:pointer;
+  border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.nav-option:last-child { border-bottom:none; }
+.nav-option:hover { background:#f0f6f2; color:var(--primary); }
+.nav-option.active { background:var(--primary); color:white; }
+.nav-option.active .nav-option-gr { color:rgba(255,255,255,0.65); }
+.nav-option-gr {
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px; font-style:italic; font-weight:400;
+  color:var(--text-soft);
+}
+
+.allergen-btn {
+  display:flex; align-items:center; gap:5px;
+  background:none; border:1.5px solid var(--gold);
+  border-radius:20px; padding:5px 12px;
+  font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600;
+  color:#1a2016; cursor:pointer; transition:all .2s;
+  letter-spacing:.02em;
+}
+.allergen-btn:hover { background:var(--gold); color:#1a2016; border-color:var(--gold); }
+.allergen-btn .name-en, .allergen-btn .name-gr { color:inherit; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; }
+
+  .cards-grid{grid-template-columns:1fr 1fr 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-logo" id="hero-logo-wrap"></div>
+  <p class="hero-tagline">Local fresh cuisine for everyone</p>
+</div>
+
+
+
+<div id="reservationModal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div id="reservationOverlay" onclick="closeReservation()" style="position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);"></div>
+  <div style="position:relative;background:white;border-radius:20px;padding:32px 24px 24px;max-width:400px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,0.3);text-align:center;">
+    <div style="width:60px;height:60px;background:linear-gradient(135deg,#fef3d0,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1a2016;margin-bottom:14px;"><span class="name-en">Reservations</span><span class="name-gr">Κρατήσεις</span></h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#4a5540;line-height:1.75;margin-bottom:24px;"><span class="name-en">For a reservation, please call us at</span><span class="name-gr">Για κράτηση, παρακαλούμε καλέστε μας στο</span></p>
+    <a href="tel:24400435" style="display:block;font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--primary);text-decoration:none;margin-bottom:24px;letter-spacing:0.05em;">24 400435</a>
+    <button onclick="closeReservation()" style="width:100%;background:var(--primary);color:white;border:none;border-radius:25px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;"><span class="name-en" style="color:white;">Close</span><span class="name-gr" style="color:white;">Κλείσιμο</span></button>
+  </div>
+</div>
+
+<div id="eventModal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div onclick="closeEventModal()" style="position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);"></div>
+  <div style="position:relative;background:white;border-radius:20px;padding:36px 28px 28px;max-width:400px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,0.3);text-align:center;">
+    <div style="font-size:42px;margin:0 auto 18px;">🎶</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#1a2016;margin-bottom:12px;">Live Events Every Friday</h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:#000000;line-height:1.8;margin-bottom:28px;">Join us every Friday evening for a wonderful live music experience. Enjoy great food, warm company, and an unforgettable atmosphere — we look forward to seeing you.</p>
+    <button onclick="closeEventModal()" style="width:100%;background:var(--gold);color:#1a2016;border:none;border-radius:25px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.03em;">We'll be there! 🎶</button>
+    <button onclick="closeEventModal()" style="width:100%;background:none;border:none;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-soft);cursor:pointer;margin-top:4px;">Maybe later</button>
+  </div>
+</div>
+
+<div class="lang-bar">
+  <div style="display:flex;gap:6px;">
+  <button class="allergen-btn" onclick="openAllergen()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span class="name-en">Allergens</span><span class="name-gr">Αλλεργιογόνα</span>
+  </button>
+  <button class="allergen-btn reserve-btn" onclick="openReservation()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <span class="name-en">Reserve</span><span class="name-gr">Κράτηση</span>
+  </button>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <span>Language:</span>
+    <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+    <button class="lang-btn" onclick="setLang('gr',this)">ΕΛ</button>
+  </div>
+</div>
+<div class="nav-wrap">
+  <div class="custom-nav" id="customNav">
+    <button class="custom-nav-btn" onclick="toggleNav()">
+      <span id="navLabel">Starters</span>
+      <svg class="nav-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="custom-nav-dropdown" id="navDropdown">
+      <div class="nav-option active" onclick="selectSection('starters','Starters',this)">Starters<span class="nav-option-gr">Κάτι για Αρχή</span></div>
+      <div class="nav-option" onclick="selectSection('salads','Fresh Salads',this)">Fresh Salads<span class="nav-option-gr">Δροσερές Σαλάτες</span></div>
+      <div class="nav-option" onclick="selectSection('grill','On the Charcoal',this)">On the Charcoal<span class="nav-option-gr">Στα Κάρβουνα</span></div>
+      <div class="nav-option" onclick="selectSection('share','To Share',this)">To Share<span class="nav-option-gr">Ποικιλίες</span></div>
+      <div class="nav-option" onclick="selectSection('extras','Extras',this)">Extras<span class="nav-option-gr">Συμπληρωματικά</span></div>
+      <div class="nav-option" onclick="selectSection('dips','Homemade Dips',this)">Homemade Dips<span class="nav-option-gr">Σπιτικές Αλοιφές</span></div>
+      <div class="nav-option" onclick="selectSection('desserts','Sweet Ending',this)">Sweet Ending<span class="nav-option-gr">Γλυκά</span></div>
+      <div class="nav-option" onclick="selectSection('drinks','Drinks',this)">Drinks<span class="nav-option-gr">Ποτά</span></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div id="starters" class="menu-section active"><div class="section-header"><div><div class="section-title-en">Starters</div><div class="section-title-gr">Κάτι για Αρχή</div></div><div class="section-line"></div></div><div class="cards-grid" id="starters-grid"></div></div>
+  <div id="salads" class="menu-section"><div class="section-header"><div><div class="section-title-en">Fresh Salads</div><div class="section-title-gr">Δροσερές Σαλάτες</div></div><div class="section-line"></div></div><div class="cards-grid" id="salads-grid"></div></div>
+  <div id="grill" class="menu-section"><div class="section-header"><div><div class="section-title-en">On the Charcoal</div><div class="section-title-gr">Στα Κάρβουνα</div></div><div class="section-line"></div></div><div class="cards-grid" id="grill-grid"></div></div>
+  <div id="share" class="menu-section"><div class="section-header"><div><div class="section-title-en">To Share</div><div class="section-title-gr">Ποικιλίες</div></div><div class="section-line"></div></div><div class="cards-grid" id="share-grid"></div></div>
+  <div id="extras" class="menu-section"><div class="section-header"><div><div class="section-title-en">Extras</div><div class="section-title-gr">Συμπληρωματικά</div></div><div class="section-line"></div></div><div class="cards-grid" id="extrasCards-grid"></div><div id="extras-content"></div></div>
+  <div id="dips" class="menu-section"><div class="section-header"><div><div class="section-title-en">Homemade Dips</div><div class="section-title-gr">Σπιτικές Αλοιφές</div></div><div class="section-line"></div></div><div class="cards-grid" id="dips-grid"></div></div>
+  <div id="desserts" class="menu-section"><div class="section-header"><div><div class="section-title-en">Sweet Ending</div><div class="section-title-gr">Γλυκά</div></div><div class="section-line"></div></div><div class="cards-grid" id="desserts-grid"></div></div>
+
+      <div id="drinks" class="menu-section">
+    <div class="section-header"><div><div class="section-title-en">Drinks</div><div class="section-title-gr">Ποτά</div></div><div class="section-line"></div></div>
+    <div class="dlist">
+
+      <div class="ditem">
+        <button class="dbtn" onclick="toggleDrink('soft',this)">
+          <span class="dbtn-left"><span class="dbtn-emoji">🥤</span><span class="dbtn-label">Soft Drinks<br><span style="font-size:12px;font-weight:400;opacity:0.75;" class="extras-name-gr">Soft Drinks</span></span></span>
+          <svg class="dchev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="dpanel-soft" class="dpanel">
+          <div class="extras-table">
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Coca Cola / Zero / Sprite / Fanta / Soda</span><span class="extras-name-gr">Coca Cola / Zero / Sprite / Fanta / Soda</span><span class="d-note">330ml</span></div><div class="extras-price">€2.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ice Tea "Fuzetea"</span><span class="extras-name-gr">Ice Tea "Fuzetea"</span><span class="d-note">330ml</span></div><div class="extras-price">€2.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Water Kykkos</span><span class="extras-name-gr">Water Kykkos</span><span class="d-note">1L</span></div><div class="extras-price">€3.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Juice in carton "Lanitis"</span><span class="extras-name-gr">Juice in carton "Lanitis"</span><span class="d-note">250ml</span></div><div class="extras-price">€2.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Homemade Lemonade with Ginger</span><span class="extras-name-gr">Homemade Lemonade with Ginger</span></div><div class="extras-price">€3.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Sparkling Water "Souroti"</span><span class="extras-name-gr">Sparkling Water "Souroti"</span></div><div class="extras-price">€2.50</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditem">
+        <button class="dbtn" onclick="toggleDrink('beer',this)">
+          <span class="dbtn-left"><span class="dbtn-emoji">🍺</span><span class="dbtn-label">Beer<br><span style="font-size:12px;font-weight:400;opacity:0.75;" class="extras-name-gr">Beer</span></span></span>
+          <svg class="dchev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="dpanel-beer" class="dpanel">
+          <div class="extras-table">
+            <div class="extras-row extras-featured"><div class="extras-name"><span class="extras-name-en">Barrel Beer</span><span class="extras-name-gr">Barrel Beer</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Carlsberg</span><span class="extras-name-gr">Carlsberg</span><span class="d-note">250ml</span></div><div class="extras-price">€3.40</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Carlsberg</span><span class="extras-name-gr">Carlsberg</span><span class="d-note">500ml</span></div><div class="extras-price">€4.90</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">KEO</span><span class="extras-name-gr">KEO</span><span class="d-note">250ml</span></div><div class="extras-price">€3.40</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">KEO</span><span class="extras-name-gr">KEO</span><span class="d-note">500ml</span></div><div class="extras-price">€4.90</div></div>
+            <div class="extras-row extras-featured"><div class="extras-name"><span class="extras-name-en">Bottle Beer</span><span class="extras-name-gr">Bottle Beer</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Carlsberg Non Alcohol 0%</span><span class="extras-name-gr">Carlsberg Non Alcohol 0%</span><span class="d-note">330ml</span></div><div class="extras-price">€3.20</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">ΜΑΜΟΣ</span><span class="extras-name-gr">MAHOS</span><span class="d-note">500ml</span></div><div class="extras-price">€6.00</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditem">
+        <button class="dbtn" onclick="toggleDrink('alcohol',this)">
+          <span class="dbtn-left"><span class="dbtn-emoji">🥃</span><span class="dbtn-label">Spirits &amp; Cocktails<br><span style="font-size:12px;font-weight:400;opacity:0.75;" class="extras-name-gr">Spirits &amp; Cocktails</span></span></span>
+          <svg class="dchev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="dpanel-alcohol" class="dpanel">
+          <div class="extras-table">
+            <div class="extras-row extras-featured"><div class="extras-name"><span class="extras-name-en">Spirits</span><span class="extras-name-gr">Spirits</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ouzo Plomariou</span><span class="extras-name-gr">Ouzo Plomariou</span><span class="d-note">20cl</span></div><div class="extras-price">€13.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Zivania LOEL</span><span class="extras-name-gr">Zivania LOEL</span><span class="d-note">20cl</span></div><div class="extras-price">€14.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Idoniko Tsipouro Lazarides</span><span class="extras-name-gr">Idoniko Tsipouro Lazarides</span><span class="d-note">20cl</span></div><div class="extras-price">€15.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Famous Grouse</span><span class="extras-name-gr">Famous Grouse</span><span class="d-note">5cl / 20cl</span></div><div class="extras-price">€4.50 / €16.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Chivas</span><span class="extras-name-gr">Chivas</span><span class="d-note">5cl / 20cl</span></div><div class="extras-price">€5.00 / €19.00</div></div>
+            <div class="extras-row extras-featured"><div class="extras-name"><span class="extras-name-en">Cocktails</span><span class="extras-name-gr">Cocktails</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Cocktail Mastic Lemon</span><span class="extras-name-gr">Cocktail Mastic Lemon</span></div><div class="extras-price">€6.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Cocktail Mastic Mint</span><span class="extras-name-gr">Cocktail Mastic Mint</span></div><div class="extras-price">€6.00</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditem">
+        <button class="dbtn" onclick="toggleDrink('wine',this)">
+          <span class="dbtn-left"><span class="dbtn-emoji">🍷</span><span class="dbtn-label">Wine List<br><span style="font-size:12px;font-weight:400;opacity:0.75;" class="extras-name-gr">Κατάλογος Κρασιών</span></span></span>
+          <svg class="dchev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="dpanel-wine" class="dpanel">
+          <div class="extras-table">
+            <div class="extras-row extras-featured extras-wine"><div class="extras-name"><span class="extras-name-en">🤍 White Wine</span><span class="extras-name-gr">🤍 Λευκά Κρασιά</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis Xynisteri (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης Ξυνιστέρι (Κύπρος)</span><span class="d-note">187ml</span></div><div class="extras-price">€5.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis Xynisteri (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης Ξυνιστέρι (Κύπρος)</span><span class="d-note">750ml</span></div><div class="extras-price">€15.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis Sauvignon Blanc (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης Sauvignon Blanc (Κύπρος)</span><span class="d-note">187ml</span></div><div class="extras-price">€5.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis Sauvignon Blanc (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης Sauvignon Blanc (Κύπρος)</span><span class="d-note">750ml</span></div><div class="extras-price">€23.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Retsina (Greece)</span><span class="extras-name-gr">Ρετσίνα (Ελλάδα)</span><span class="d-note">500ml</span></div><div class="extras-price">€7.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Paranga Kir Yianni (Greece)</span><span class="extras-name-gr">Παράγκα Κυρ-Γιάννη (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€22.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Skouras Moshofilero (Greece)</span><span class="extras-name-gr">Σκούρας Μοσχοφίλερο (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€25.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ktima Biblia Chora (Greece)</span><span class="extras-name-gr">Κτήμα Βιβλία Χώρα (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€29.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Malagouzia Gerovasiliou (Greece)</span><span class="extras-name-gr">Μαλαγουζιά Γεροβασιλείου (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€35.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Morokanella (Cyprus)</span><span class="extras-name-gr">Μοροκανέλλα (Κύπρος)</span><span class="d-note">750ml</span></div><div class="extras-price">€25.00</div></div>
+            <div class="extras-row extras-featured extras-wine"><div class="extras-name"><span class="extras-name-en">🌸 Rosé Wine</span><span class="extras-name-gr">🌸 Ροζέ Κρασιά</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης (Κύπρος)</span><span class="d-note">187ml</span></div><div class="extras-price">€5.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης (Κύπρος)</span><span class="d-note">750ml</span></div><div class="extras-price">€17.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Akakies Kir Yianni (Greece)</span><span class="extras-name-gr">Ακακίες Κυρ-Γιάννη (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€22.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ktima Biblia Chora (Greece)</span><span class="extras-name-gr">Κτήμα Βιβλία Χώρα (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€28.00</div></div>
+            <div class="extras-row extras-featured extras-wine"><div class="extras-name"><span class="extras-name-en">🍷 Red Wine</span><span class="extras-name-gr">🍷 Κόκκινα Κρασιά</span></div><div class="extras-price"></div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης (Κύπρος)</span><span class="d-note">187ml</span></div><div class="extras-price">€5.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ais Ambelis (Cyprus)</span><span class="extras-name-gr">Άης Αμπέλης (Κύπρος)</span><span class="d-note">750ml</span></div><div class="extras-price">€15.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Paranga Kir Yianni (Greece)</span><span class="extras-name-gr">Παράγκα Κυρ-Γιάννη (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€23.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Skouras Agiorgitiko Nemea (Greece)</span><span class="extras-name-gr">Σκούρας Αγιωργίτικο-Νεμέα (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€24.00</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Ktima Biblia Chora (Greece)</span><span class="extras-name-gr">Κτήμα Βιβλία Χώρα (Ελλάδα)</span><span class="d-note">750ml</span></div><div class="extras-price">€35.00</div></div>
+          </div>
+          <p class="drinks-note">Prices include all legal surcharges</p>
+          <p class="drinks-allergen">ALLERGENS: Some recipes may contain any of the EU allergens as an ingredient and traces may be in any other dish or food served here. Please ask for a manager who can provide you with detailed information.</p>
+        </div>
+      </div>
+
+      <div class="ditem">
+        <button class="dbtn" onclick="toggleDrink('coffee',this)">
+          <span class="dbtn-left"><span class="dbtn-emoji">☕</span><span class="dbtn-label">Coffee &amp; Tea<br><span style="font-size:12px;font-weight:400;opacity:0.75;" class="extras-name-gr">Coffee &amp; Tea</span></span></span>
+          <svg class="dchev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="dpanel-coffee" class="dpanel">
+          <div class="extras-table">
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Espresso</span><span class="extras-name-gr">Espresso</span></div><div class="extras-price">€1.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Cappuccino</span><span class="extras-name-gr">Cappuccino</span></div><div class="extras-price">€2.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Frappe / Americano / Nescafe</span><span class="extras-name-gr">Frappe / Americano / Nescafe</span></div><div class="extras-price">€2.50</div></div>
+            <div class="extras-row"><div class="extras-name"><span class="extras-name-en">Tea (English, Green, Camomile)</span><span class="extras-name-gr">Tea (English, Green, Camomile)</span></div><div class="extras-price">€2.50</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<footer>
+  <div id="footer-logo"></div>
+  © Cynthia Bunea · All rights reserved
+  
+</footer>
+<script>
+const IMGS = {
+  sheftalia: "images/sheftalia.jpg",
+  lamb_chops: "images/lamb_chops.jpg",
+  cheese_croquettes: "images/cheese_croquettes.jpg",
+  chicken_liver: "images/chicken_liver.jpg",
+  dips: "images/dips.jpg",
+  hot_choc: "images/hot_choc.jpg",
+  chicken_patty: "images/chicken_patty.jpg",
+  green_salad: "images/green_salad.jpg",
+  ntakos: "images/ntakos.jpg",
+  pork_chop: "images/pork_chop.png",
+  souvlaki: "images/souvlaki.png",
+  potato_salad: "images/potato_salad.jpg",
+  sausage: "images/sausage.jpg",
+  feta: "images/feta.png",
+  courgette: "images/courgette.png",
+  kataifi: "images/kataifi.jpg",
+  cabbage_salad: "images/cabbage_salad.jpg",
+  zucchini: "images/zucchini.png",
+  cheese_croquettes2: "images/cheese_croquettes2.jpg",
+  kebab: "images/kebab.png",
+  pancetta: "images/pancetta.png",
+  kebab_yogurt: "images/kebab_yogurt.png",
+  platter: "images/platter.jpg",
+  village_salad: "images/village_salad.jpg",
+  logo: "images/logo.png",
+  cheese_croquettes_new: "images/cheese_croquettes_new.jpg",
+  baklava: "images/baklava.jpg",
+  pitta_icecream: "images/pitta_icecream.jpg",
+  mushroom_skewer: "images/mushroom_skewer.jpg",
+  fried_halloumi: "images/fried_halloumi.png",
+  pork_burger: "images/pork_burger.jpg",
+  roasted_eggplant: "images/roasted_eggplant.jpg",
+  florina_peppers: "images/florina_peppers.jpg",
+  chicken_burger: "images/chicken_burger.png",
+  fries: "images/fries.jpg",
+  sheftalia2: "images/sheftalia2.jpg",
+  pork_burger2: "images/pork_burger2.png",
+  mushroom_skewer2: "images/mushroom_skewer2.jpg",
+  pitta_icecream2: "images/pitta_icecream2.jpg",
+  salad_figs: "images/salad_figs.jpg",
+  chicken_souvlaki: "images/chicken_souvlaki.png",
+  feta_oregano: "images/feta_oregano.jpg",
+  kaimaki: "images/kaimaki.png",
+  saganaki: "images/saganaki.jpg",
+
+  dip_spicy_feta: "images/dip_spicy_feta.png",
+  dip_sweet_potato: "images/dip_sweet_potato.png",
+  dip_tzatziki: "images/dip_tzatziki.png",
+  dip_tahini: "images/dip_tahini.png",
+
+  dip_beetroot: "images/dip_beetroot.png",
+  dip_hummus: "images/dip_hummus.png",
+  dip_combination: "images/dip_combination.png",
+
+  kebab_featured: "images/kebab_featured.jpg",
+
+  extras_fries: "images/extras_fries.png",
+
+  extras_pitta: "images/extras_pitta.png",
+
+  extras_cypriot_pitta: "images/extras_cypriot_pitta.png",
+
+  extras_yogurt: "images/extras_yogurt.png",
+
+  extras_halloumi: "images/extras_halloumi.png",
+
+  extras_feta_cheese: "images/extras_feta_cheese.png",
+};
+document.getElementById('hero-logo-wrap').innerHTML=`<img src="${IMGS.logo}" alt="Βάλτου Ρίγανη">`;
+document.getElementById('footer-logo').innerHTML=`<img src="${IMGS.logo}" alt="Βάλτου Ρίγανη" style="max-width:100px;opacity:.75;margin:0 auto 10px;">`;
+
+const MENU = {
+  extrasCards:[
+    {img:"extras_fries",nameEn:"Fresh Fried Potatoes",nameGr:"Φρέσκιες Τηγανητές Πατάτες",descEn:"",descGr:"",price:"€3.50",priceNote:""},
+    {img:"extras_pitta",nameEn:"Greek Pitta",nameGr:"Ελληνική Πίττα",descEn:"",descGr:"",price:"€1.30",priceNote:""},
+    {img:"extras_cypriot_pitta",nameEn:"Cypriot Pitta Crisps Sprinkled with Fresh Oregano",nameGr:"Τραγανή Κυπριακή Πίττα με Ρίγανη",descEn:"",descGr:"",price:"€1.30",priceNote:""},
+    {img:"extras_yogurt",nameEn:"Yogurt",nameGr:"Γιαούρτι",descEn:"",descGr:"",price:"€2.50",priceNote:""},
+    {img:"extras_halloumi",nameEn:"Halloumi (piece)",nameGr:"Χαλούμι (τμχ)",descEn:"",descGr:"",price:"€1.50",priceNote:""},
+    {img:"extras_feta_cheese",nameEn:"Feta Cheese with Olive Oil and Oregano",nameGr:"Φέτα Λαδορίγανη",descEn:"",descGr:"",price:"€3.00",priceNote:""},
+  ],
+  dips:[
+    {img:"dip_combination",featured:true,nameEn:"Combination of all our homemade dips served with greek and cypriot pitta bread",nameGr:"Συλλογή όλων των σπιτικών αλοιφών με συνοδεία Ελληνικής και Κυπριακής πίττας",descEn:"",descGr:"",price:"€8.30",priceNote:""},
+    {img:"dip_tzatziki",nameEn:"Tzatziki",nameGr:"Τζατζίκι",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+    {img:"dip_spicy_feta",nameEn:"Spicy Feta Dip",nameGr:"Τυροκαυτερή",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+    {img:"dip_hummus",nameEn:"Hummus",nameGr:"Χούμους",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+    {img:"dip_sweet_potato",nameEn:"Spicy carrot dip",nameGr:"Γλυκοπατάτα και Καρότο",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+    {img:"dip_beetroot",nameEn:"Yogurt Beetroot Dip",nameGr:"Παντζαροκατάσταση",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+    {img:"dip_tahini",nameEn:"Dip with Tahini and Coriander",nameGr:"Ντιπ Ταχίνι με Κόλιανδρο",descEn:"",descGr:"",price:"€1.40",priceNote:""},
+  ],
+  share:[
+    {img:"platter",badge:"★ For 2",featured:true,
+      nameEn:"Platter for 2",nameGr:"Ποικιλία για 2",
+      descEn:"4 souvlaki of your choice, sausage, pork burger, chicken burger, halloumi, mushroom skewer, potato salad, 2 spreads of your choice, potatoes and pittas.",
+      descGr:"4 σουβλάκια επιλογής, λουκάνικο, μπιφτέκι χοιρινό, κοτομπίφτεκο, χαλούμι, καλαμάκι μανιτάρι, πατατοσαλάτα, 2 αλοιφές επιλογής, πατάτες, πίττες.",
+      price:"€25.00",priceNote:"serves 2"},
+  ],
+  salads:[
+    {img:"village_salad",featured:true,badge:"Classic",nameEn:"Village Salad",nameGr:"Σαλάτα του Χωριού",descEn:"",descGr:"",price:"€7.90",priceNote:""},
+    {img:"ntakos",nameEn:"Dakos Salad with Fresh Oregano",nameGr:"Ντάκος με Φρέσκα Ρίγανη",descEn:"",descGr:"",price:"€7.90",priceNote:""},
+    {img:"salad_figs",nameEn:"Rocket salad with sun dried figs and manouri cheese",nameGr:"Σαλάτα με Ρόκα, Παστά Σύκα και Μανούρι",descEn:"",descGr:"",price:"€7.90",priceNote:""},
+    {img:"potato_salad",nameEn:"Lemony Potato Salad with Capers",nameGr:"Πατατοσαλάτα με Κάπαρη",descEn:"",descGr:"",price:"€7.90",priceNote:""},
+    {img:"cabbage_salad",nameEn:"Cabbage, Carrot and Green Apple Salad",nameGr:"Λάχανο, Καρότο και Πράσινο Μήλο",descEn:"",descGr:"",price:"€7.90",priceNote:""},
+    {img:"green_salad",badge:"Seasonal",nameEn:"Mixed green salad with goat cheese, orange and roasted hazelnuts",nameGr:"Ανάμικτα Φύλλα με Φινόκιο, Κατσικίσιο Τυρί, Πορτοκάλι και Καβουρδισμένα Φουντούκια",descEn:"",descGr:"",price:"€8.40",priceNote:""},
+  ],
+  starters:[
+    {img:"feta",badge:"Chef's Pick",featured:true,nameEn:"Feta Wrapped in Filo with Honey & Sesame",nameGr:"Φακελωμένη Φέτα με Μέλι και Σησάμι",descEn:"",descGr:"",price:"€4.80",priceNote:""},
+    {img:"florina_peppers",nameEn:"Roasted Florina Peppers with Feta Dressing",nameGr:"Ψητές Πιπεριές Φλωρίνης με Σως Φέτας",descEn:"",descGr:"",price:"€4.90",priceNote:""},
+    {img:"mushroom_skewer2",nameEn:"Grilled Mushrooms on Skewer",nameGr:"Καλαμάκι Μανιτάρι",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    
+    {img:"zucchini",nameEn:"Courgette Fritters",nameGr:"Χειροποίητοι Κολοκυθοκεφτέδες",descEn:"",descGr:"",price:"€4.70",priceNote:""},
+    {img:"fried_halloumi",nameEn:"Fried Halloumi with Pomegranate Yogurt Dressing",nameGr:"Χαλούμι Τηγανητό με Σάλτσα Γιαούρτι-Ρόδι",descEn:"",descGr:"",price:"€4.80",priceNote:""},
+    {img:"courgette",nameEn:"Crispy Courgette Ribbons",nameGr:"Κολοκυθάκια Τηγανητά",descEn:"",descGr:"",price:"€4.90",priceNote:""},
+    {img:"chicken_liver",nameEn:"Chicken Liver Finished with White Wine",nameGr:"Συκωτάκι Τηγανιά",descEn:"",descGr:"",price:"€4.90",priceNote:""},
+    {img:"saganaki",nameEn:"Saganaki Cheese",nameGr:"Σαγανάκι Τυρί",descEn:"",descGr:"",price:"€4.80",priceNote:""},
+    {img:"cheese_croquettes_new",badge:"Popular",nameEn:"Cheese Croquettes with Marmalade Sauce",nameGr:"Χειροποίητες Τυροκροκέτες με Μαρμελάδα",descEn:"",descGr:"",price:"€4.90",priceNote:""},
+    {img:"roasted_eggplant",nameEn:"Roasted Eggplant with Tahini and Herbs",nameGr:"Μελιτζάνα Ψητή με Σως Ταχίνης και Μυρωδικά",descEn:"",descGr:"",price:"€4.90",priceNote:""},
+  ],
+  grill:[
+    {img:"kebab_featured",featured:true,nameEn:"On the Charcoal",nameGr:"Στα Κάρβουνα",descEn:"",descGr:"",price:"",priceNote:""},
+    {img:"souvlaki",nameEn:"Pork Souvlaki",nameGr:"Σουβλάκι Χοιρινό",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    {img:"chicken_souvlaki",nameEn:"Chicken Souvlaki",nameGr:"Σουβλάκι Κοτόπουλο",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    {img:"pork_burger2",nameEn:"Individual Homemade Pork Burger",nameGr:"Σπιτικό Μπιφτέκι Χοιρινό",descEn:"",descGr:"",price:"€2.00",priceNote:"per piece"},
+    {img:"chicken_burger",nameEn:"Individual Homemade Chicken Burger",nameGr:"Σπιτικό Κοτομπίφτεκο",descEn:"",descGr:"",price:"€2.00",priceNote:"per piece"},
+    {img:"pancetta",nameEn:"Pork Pancetta",nameGr:"Πανσέτα",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    {img:"kebab",nameEn:"Kebab",nameGr:"Κεμπάπ",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    {img:"kebab_yogurt",badge:"Chef's Pick",nameEn:"Kebab Giaourtlou",nameGr:"Κεμπάπ Γιαουρτλού",descEn:"",descGr:"",price:"€6.80",priceNote:""},
+    {img:"sausage",nameEn:"Pork Greek Village Sausage",nameGr:"Χωριάτικο Ελληνικό Λουκάνικο",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+    {img:"pork_chop",nameEn:"Juicy Pork Chop with Fries and Salad",nameGr:"Ζουμερή Μπριζόλα με Πατάτες και Σαλάτα",descEn:"",descGr:"",price:"€14.50",priceNote:""},
+    {img:"lamb_chops",badge:"500g / 1kg",nameEn:"Lamb Chops",nameGr:"Παϊδάκια Αρνίσια",descEn:"",descGr:"",price:"€18.00",priceNote:"500g · €34/1kg"},
+    {img:"sheftalia2",badge:"Cypriot Classic",nameEn:"Pork Seftalia on Skewer",nameGr:"Καλαμάκι Σεφταλιά",descEn:"",descGr:"",price:"€2.30",priceNote:"per skewer"},
+  ],
+  desserts:[
+    {img:"pitta_icecream2",featured:true,nameEn:"Pitta with honey and vanilla ice cream",nameGr:"Πίττα της σάτζιης με παγωτό βανίλια",descEn:"",descGr:"",price:"€5.30",priceNote:""},
+    {img:"kataifi",nameEn:"Kataifi with Cream in a Jar",nameGr:"Εκμέκ Κανταΐφι",descEn:"",descGr:"",price:"€4.50",priceNote:""},
+    {img:"kaimaki",nameEn:"Kaimaki Ice Cream with Sour Cherries in Syrup",nameGr:"Παγωτό Καϊμάκι με Γλυκό Βύσσινο",descEn:"",descGr:"",price:"€4.50",priceNote:""},
+    {img:"hot_choc",badge:"Must Try",nameEn:"Warm chocolate pie with vanilla ice cream",nameGr:"Ζεστή σοκολατόπιτα με παγωτό βανίλια",descEn:"",descGr:"",price:"€5.30",priceNote:""},
+    {img:"baklava",nameEn:"Baklava",nameGr:"Μπακλαβάς",descEn:"",descGr:"",price:"€4.50",priceNote:""},
+  ]
+};
+
+
+const EXTRAS_HTML=`<div class="extras-table">
+</div>`;
+
+document.getElementById('extras-content').innerHTML=EXTRAS_HTML;
+
+function buildCard(item){
+  const imgHtml=(item.img&&IMGS[item.img])
+    ?`<div class="card-img"><img src="${IMGS[item.img]}" alt="${item.nameEn}" loading="lazy">${item.badge?`<span class="badge ${item.badge==='★ For 2'?'badge-gold':''}">${item.badge}</span>`:''}</div>`
+    :`<div class="no-img">${item.emoji||'🍽️'}</div>`;
+  const note=item.priceNote?`<div class="price-note">${item.priceNote}</div>`:'';
+  return `<div class="${item.featured?'card card-featured':'card'}"><div class="card-inner">${imgHtml}<div class="card-body"><div class="name-en">${item.nameEn}</div><div class="name-gr">${item.nameGr}</div><div class="desc-en">${item.descEn}</div><div class="desc-gr">${item.descGr}</div><div class="card-footer"><div class="price">${item.price}</div>${note}</div></div></div></div>`;
+}
+Object.entries(MENU).forEach(([s,items])=>{
+  const g=document.getElementById(s+'-grid');
+  if(g)g.innerHTML=items.map(buildCard).join('');
+  const g2=document.getElementById(s+'-cards-grid');
+  if(g2)g2.innerHTML=items.map(buildCard).join('');
+});
+
+function showSection(id){
+  document.querySelectorAll('.menu-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  var section = document.getElementById(id); var navH = document.querySelector('.nav-wrap').offsetHeight; window.scrollTo({top: section.offsetTop - navH - 8, behavior:'smooth'});
+}
+
+
+function toggleNav() {
+  const btn = document.querySelector('.custom-nav-btn');
+  const dd = document.getElementById('navDropdown');
+  btn.classList.toggle('open');
+  dd.classList.toggle('open');
+}
+function selectSection(id, label, el) {
+  showSection(id);
+  document.getElementById('navLabel').textContent = label;
+  document.querySelectorAll('.nav-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelector('.custom-nav-btn').classList.remove('open');
+  document.getElementById('navDropdown').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('customNav');
+  if (nav && !nav.contains(e.target)) {
+    document.querySelector('.custom-nav-btn').classList.remove('open');
+    document.getElementById('navDropdown').classList.remove('open');
+  }
+});
+
+// CSS-class based language switching — reliable across all elements
+function setLang(lang,btn){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.documentElement.className='lang-'+lang;
+}
+
+function toggleDrink(id, btn) {
+  const panel = document.getElementById('dpanel-' + id);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.dpanel').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.dbtn').forEach(b => b.classList.remove('open'));
+  if (!isOpen) {
+    panel.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+</script>
+
+<!-- Allergen Modal -->
+<div id="allergenModal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div id="allergenOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);"></div>
+  <div style="position:relative;background:white;border-radius:20px;padding:32px 24px 24px;max-width:400px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,0.3);text-align:center;">
+    <div style="width:60px;height:60px;background:linear-gradient(135deg,#fef3d0,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1a2016;margin-bottom:14px;"><span class="name-en">Allergen Information</span><span class="name-gr">Αλλεργιογόνα</span></h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#4a5540;line-height:1.75;margin-bottom:24px;"><span class="name-en">Some of our dishes contain allergens. If you have any food allergies or dietary requirements, please inform a member of our team before ordering. We will be happy to assist you.</span><span class="name-gr">Ορισμένα από τα πιάτα μας περιέχουν αλλεργιογόνα. Εάν έχετε τροφικές αλλεργίες ή διαιτητικές απαιτήσεις, παρακαλούμε ενημερώστε κάποιο μέλος της ομάδας μας πριν παραγγείλετε. Θα χαρούμε να σας βοηθήσουμε.</span></p>
+    <button onclick="closeAllergen()" style="width:100%;background:var(--primary);color:white;border:none;border-radius:25px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;"><span class="name-en" style="color:white;">Got it, thank you</span><span class="name-gr" style="color:white;">Το κατάλαβα, ευχαριστώ</span></button>
+  </div>
+</div>
+
+<script>
+function closeEventModal(){
+  document.getElementById('eventModal').style.display='none';
+}
+function openReservation(){
+  document.getElementById('reservationModal').style.display='flex';
+}
+function closeReservation(){
+  document.getElementById('reservationModal').style.display='none';
+}
+function openAllergen() {
+  var m = document.getElementById('allergenModal');
+  m.style.display = 'flex';
+}
+function closeAllergen() {
+  document.getElementById('allergenModal').style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('allergenOverlay').addEventListener('click', closeAllergen);
+  setTimeout(function(){ document.getElementById('eventModal').style.display='flex'; }, 800);
+});
+</script>
+</body>
+</html>
